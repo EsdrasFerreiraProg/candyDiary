@@ -1,5 +1,5 @@
 import { Schema, model, connect } from 'mongoose';
-const env = require('../env');
+const env = require('../env/env.ts');
 import bcrypt from "bcrypt";
 
 type diaryPage = {
