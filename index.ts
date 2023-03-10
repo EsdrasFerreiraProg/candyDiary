@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcrypt';
-import { DiaryPage } from './types/dairyPage';
+
 
 const prisma = new PrismaClient()
 
@@ -24,10 +24,10 @@ async function createUser(name: string, email: string, password: string){
 
         await prisma.user.create({
             data: {
-                name: 'Rich',
-                email: 'hello@prisma.com',
+                name,
+                email,
                 password: hash,
-                
+                dairyPage: {},
             },
         }).then(()=>{
             return "User created successfully";
@@ -37,6 +37,16 @@ async function createUser(name: string, email: string, password: string){
     })
 
 }
+
+createUser("Jujuba", "jujuba@gmail.com", "123456")
+  .then(async () => {
+    await prisma.$disconnect()
+  })
+  .catch(async (e) => {
+    console.error(e)
+    await prisma.$disconnect()
+    process.exit(1)
+})
 
 main()
   .then(async () => {
@@ -48,12 +58,4 @@ main()
     process.exit(1)
 })
 
-createUser("Jujuba", "jujuba@gmail.com", "123456")
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-})
+
